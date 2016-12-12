@@ -10,16 +10,16 @@ img_compressed_16 = cell(m/block_size, n/block_size);
 
 %8x8 Blöcke 
 
-for x = 0:1:(m/block_size-1)
-  for y = 0:1:(n/block_size-1)
+for x = 1:1:(m/block_size-1)
+  for y = 1:1:(n/block_size-1)
     img_compressed{x+1,y+1} = image((x*block_size+1):((x+1)*block_size), (y*block_size+1):((y+1)*block_size));
   end
 end
 
 %16x16 Blöcke  
 
-for x = 0:1:(m/block_size-1)
-  for y = 0:1:(n/block_size-1)
+for x = 1:1:(m/block_size-1)
+  for y = 1:1:(n/block_size-1)
     img_compressed{x+1,y+1} = image((x*block_size+1):((x+1)*block_size), (y*block_size+1):((y+1)*block_size));
   end
 end
@@ -45,9 +45,6 @@ end
 %c) Quantisierung der DCT-Blöcke mit block_size x block_size
 %   Quantisierungsmatrix quant --> p04_quant.mat
 
-load('p04_quant');
-q8 = quant8;
-q16 = quant16;
 img_compressed_8dctq = cell(m/8, n/8);
 for u = 1:1:m/8
   for v = 1:1:n/8
@@ -55,7 +52,7 @@ for u = 1:1:m/8
   end
 end
 
-img_compressed_16dctq = cel(m/16, n/16);
+img_compressed_16dctq = cell(m/16, n/16);
 for u = 1:1:m/16
   for v = 1:1:n/16
     img_compressed_16dctq{u,v} = round(img_compressed_16dct{u,v}./q16);
@@ -93,8 +90,8 @@ end
  
 for u = 1:1:m/16
   for v = 1:1:n/16
-   rle_16{u,v} = p04_rle(zigzag_16);
-   compsize16 = compsize16+length(rle_16{u,v});
+   rle_16{m,n} = p04_rle(zigzag_16);
+   compsize16 = compsize16+length(rle_16{m,n});
   end
 end
 
