@@ -48,7 +48,7 @@ end
 load('p04_quant');
 q8 = quant8;
 q16 = quant16;
-img_compressed_8dctq = cel(m/8, n/8);
+img_compressed_8dctq = cell(m/8, n/8);
 for u = 1:1:m/8
   for v = 1:1:n/8
     img_compressed_8dctq{u,v} = round(img_compressed_8dct{u,v}./q8);
@@ -65,14 +65,16 @@ end
 %d) Umsortieren entlang der Antidiagonalen jedes Blockes
 %   --> p04_zigzag
 
-zigzag_8 = celll(m/8,n/8);
+zigzag_8 = cell(m/8,n/8);
+compsize8 = 0;
 for u = 1:1:m/8
   for v = 1:1:n/8
     zigzag_8{u,v} = zigzag(img_compressed_8dctq{u,v});
   end
 end
 
-zigzag_16 = celll(m/16,n/16);
+zigzag_16 = cell(m/16,n/16);
+compsize16 = 0;
 for u = 1:1:m/16
   for v = 1:1:n/16
     zigzag_16{u,v} = zigzag(img_compressed_16dctq{u,v});
@@ -85,12 +87,14 @@ end
 for u = 1:1:m/8
   for v = 1:1:n/8
    rle_8{u,v} = p04_rle(zigzag_8);
+   compsize8 = compsize8 + length(rle_8{u,v});
   end
 end
  
 for u = 1:1:m/16
   for v = 1:1:n/16
    rle_16{u,v} = p04_rle(zigzag_16);
+   compsize16 = compsize16+length(rle_16{u,v});
   end
 end
 
